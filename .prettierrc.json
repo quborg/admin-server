@@ -1,0 +1,18 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 95,
+  "overrides": [
+    {
+      "files": ["types/resolvers.ts"],
+      "options": {
+        "printWidth": 120
+      }
+    }
+  ]
+}

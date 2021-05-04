@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "config/*": ["config/*"],
+      "types": ["types/"]
+    },
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": ["./index.ts"],
+  "exclude": ["node_modules"]
+}
