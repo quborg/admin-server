@@ -3,9 +3,10 @@ import { model, Schema } from 'mongoose';
 import * as TYPES from 'types';
 import { Price, Image } from './components';
 
-type TProduct = TYPES.ItemDocument<TYPES.Product>;
+type ProductDocument = TYPES.ItemDocument<TYPES.Product>;
+type ProductModel = TYPES.ItemModel<ProductDocument>;
 
-const ProductSchema = new Schema<TProduct>(
+const ProductSchema = new Schema<ProductDocument, ProductModel>(
   {
     SKU: String,
     title: { type: String, required: true },
@@ -30,6 +31,6 @@ const ProductSchema = new Schema<TProduct>(
   { timestamps: true }
 );
 
-const ProductModel = model<TProduct>('Product', ProductSchema);
+const ProductModel = model<ProductDocument, ProductModel>('Product', ProductSchema);
 
 export default ProductModel;

@@ -11,14 +11,14 @@ type UserModel = TYPES.ItemModel<UserDocument>;
 const UserSchema = new Schema<UserDocument, UserModel>({
   name: {
     type: String,
-    minLength: VC.user.name.minLength,
-    maxLength: VC.user.name.maxLength,
+    minLength: VC.user.name.min,
+    maxLength: VC.user.name.max,
   },
   username: {
     type: String,
     unique: true,
-    minLength: VC.user.username.minLength,
-    maxLength: VC.user.username.maxLength,
+    minLength: VC.user.username.min,
+    maxLength: VC.user.username.max,
   },
   email: {
     type: String,
@@ -29,8 +29,8 @@ const UserSchema = new Schema<UserDocument, UserModel>({
   password: {
     type: String,
     required: true,
-    minLength: VC.user.password.minLength,
-    maxLength: VC.user.password.maxLength,
+    minLength: VC.user.pass.min,
+    maxLength: VC.user.pass.max,
   },
   avatar: Image,
   role: {

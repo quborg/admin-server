@@ -1,9 +1,11 @@
 import { model, Schema } from 'mongoose';
+
 import * as TYPES from 'types';
 
-type TCategory = TYPES.ItemDocument<TYPES.Category>;
+type CategoryDocument = TYPES.ItemDocument<TYPES.Category>;
+type CategoryModel = TYPES.ItemModel<CategoryDocument>;
 
-const CategorySchema = new Schema<TCategory>({
+const CategorySchema = new Schema<CategoryDocument, CategoryModel>({
   name: { type: String, required: true },
   type: {
     type: String,
@@ -11,6 +13,6 @@ const CategorySchema = new Schema<TCategory>({
   },
 });
 
-const CategoryModel = model<TCategory>('Category', CategorySchema);
+const CategoryModel = model<CategoryDocument, CategoryModel>('Category', CategorySchema);
 
 export default CategoryModel;

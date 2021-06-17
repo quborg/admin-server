@@ -14,7 +14,7 @@ const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    getUser: async (_, _id, context) => {
+    getUser: async (_, _id) => {
       try {
         const user = await User.findById(_id, null, { lean: true });
         return user;
@@ -22,7 +22,7 @@ const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    getUsers: async (_, { args }, context) => {
+    getUsers: async (_, { args }) => {
       try {
         let users;
         if (!args?.keyword) {
@@ -52,7 +52,7 @@ const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    editUser: async (_, { inputs }, context) => {
+    editUser: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
         const user = <TYPES.User>await User.findByIdAndUpdate(_id, changes, { lean: true });
@@ -61,7 +61,7 @@ const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    deleteUser: async (_, _id, context) => {
+    deleteUser: async (_, _id) => {
       try {
         const user = <TYPES.User>await User.findByIdAndDelete(_id, { lean: true });
         return !!user;

@@ -1,15 +1,18 @@
 import { model, Schema } from 'mongoose';
+
 import * as TYPES from 'types';
 
-import { OrderAddress } from './schemas';
+import { OrderAddress } from './components';
 
 const PickupCollector = new Schema<TYPES.PickupCollector>({
   name: String,
   phoneNumber: String,
 });
 
-type TPickup = TYPES.ItemDocument<TYPES.Pickup>;
-const PickupSchema = new Schema<TPickup>({
+type PickupDocument = TYPES.ItemDocument<TYPES.Pickup>;
+type PickupModel = TYPES.ItemModel<PickupDocument>;
+
+const PickupSchema = new Schema<PickupDocument, PickupModel>({
   address: OrderAddress,
   collectors: [PickupCollector],
   type: {
@@ -18,6 +21,6 @@ const PickupSchema = new Schema<TPickup>({
   },
 });
 
-const PickupModel = model<TPickup>('Pickup', PickupSchema);
+const PickupModel = model<PickupDocument, PickupModel>('Pickup', PickupSchema);
 
 export default PickupModel;

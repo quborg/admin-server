@@ -42,6 +42,7 @@ const validations: IMiddleware = {
     editUser: async (resolve, _, { inputs }) => {
       const user = await resolve(_, { inputs });
       lib.compareUpdatedItem(inputs, user, ModelName);
+      return user;
     },
     // editProduct: isModerator,
     // editCategory: isModerator,

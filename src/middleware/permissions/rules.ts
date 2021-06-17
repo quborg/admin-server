@@ -14,8 +14,3 @@ export const isAnonym = ({ token, role }: TYPES.Context): boolean =>
 
 export const isOwner = (itemID: string, context: TYPES.Context): boolean =>
   itemID === context?.ID;
-
-export const atLeastRegular = (role: string): boolean =>
-  isRegular(role) || isModerator(role) || isAdmin(role);
-
-export const atLeastModerator = (role: string): boolean => isModerator(role) || isAdmin(role);

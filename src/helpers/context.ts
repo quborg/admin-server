@@ -20,8 +20,11 @@ export const context: TYPES.ContextFn = async (expressContext) => {
   if (token)
     try {
       const { email, ID } = <TYPES.Payload>verifyToken(token, secretCode);
-      const { role, verified } = <TYPES.User>await User.findOne({ email }).lean();
-      context = { ID, email, token, role, verified };
+      const user = <TYPES.User>await User.findOne({ email }).lean();
+      if (user) {
+        const { verified, role } = user;
+        context = { ID, email, token, verified, role };
+      }
     } catch (err) {
       throw new Error(err);
     }

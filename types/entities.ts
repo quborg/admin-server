@@ -97,7 +97,7 @@ export type Order = OrderInputs & {
 };
 export type OrderInputs = {
   _id: string;
-  usedId: string;
+  userId: string;
   items: [ItemShipment];
   status: OrderStatus;
   paymentStatus: PaymentStatus;

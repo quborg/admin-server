@@ -48,7 +48,7 @@ const EntitiesTypeDefs = gql`
   }
   type Order {
     _id: ID!
-    usedId: String
+    userId: String
     items: [ItemShipment]
     status: OrderStatus
     paymentStatus: PaymentStatus

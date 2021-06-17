@@ -1,42 +1,31 @@
 import * as TYPES from 'types';
+
 import { Product } from '../models';
-import { errorsHandler } from 'src/helpers';
 
 const products: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
-    getProduct: async (_, _id, context) => {
+    getProduct: async (_, _id) => {
       try {
-        const product = await Product.findById(_id, null, { lean: true });
+        const product = await Product.findById(_id);
         return product;
       } catch (err) {
         throw new Error(err);
       }
     },
-    getProducts: async (_, { args }, context) => {
+    getProducts: async (_, { args }) => {
       try {
-        const products: TYPES.Maybe<TYPES.Product[]>;
-        // if (args?.filter) {
-        //   products = await Product.find()
-        //     .skip(args?.start)
-        //     .limit(args?.limit)
-        //     .sort({ createdAt: -1 })
-        //     .lean();
-        // }
-        // if (args?.keyword) {
-        //   const query = args.keyword.toString();
-        //   products = await Product.find({
-        //     title: { $regex: query, $options: 'i' },
-        //   })
-        //     .skip(args?.start)
-        //     .limit(args?.limit)
-        //     .sort({ createdAt: -1 })
-        //     .lean();
-        // }
-        products = await Product.find()
-          .skip(args?.start)
-          .limit(args?.limit)
-          .sort({ createdAt: -1 })
-          .lean();
+        let products: TYPES.Maybe<TYPES.Product[]>;
+        if (!args?.keyword) {
+          products = await Product.find().skip(args?.start).limit(args?.limit).lean();
+        } else {
+          const query = args.keyword.toString();
+          products = await Product.find({
+            name: { $regex: query, $options: 'i' },
+          })
+            .skip(args?.start)
+            .limit(args?.limit)
+            .lean();
+        }
         return products;
       } catch (err) {
         throw new Error(err);
@@ -44,32 +33,19 @@ const products: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
     },
   },
   Mutation: {
-    editProduct: async (_, { inputs }, context) => {
+    editProduct: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
-        if (Object.keys(changes).length > 0) {
-          errorsHandler.authentication(context);
-          const _product = await Product.findById(_id);
-          errorsHandler.noItem(_product, 'Product');
-          if (_product) {
-            await _product.updateOne(changes);
-            const product = await Product.findById(_id, null, { lean: true });
-            return product;
-          }
-        }
-        return null;
+        const product = await Product.findByIdAndUpdate(_id, changes, { lean: true });
+        return product;
       } catch (err) {
         throw new Error(err);
       }
     },
-    deleteProduct: async (_, _id, context) => {
+    deleteProduct: async (_, _id) => {
       try {
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
-        await Product.findByIdAndDelete(_id);
-        await Answer.deleteOne({ questionId: _id });
-        await Vote.deleteOne({ questionId: _id });
-        return true;
+        const product = <TYPES.Product>await Product.findByIdAndDelete(_id, { lean: true });
+        return !!product;
       } catch (err) {
         throw new Error(err);
       }

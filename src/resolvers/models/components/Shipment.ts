@@ -4,12 +4,13 @@ import * as TYPES from 'types';
 import ItemShipment from './ItemShipment';
 
 const ShipmentDeliveryDetails = new Schema<TYPES.ShipmentDeliveryDetails>({
-  name: String,
-  phoneNumber: String,
+  ScheduledDate: String,
+  CarrierPhoneNumber: String,
 });
 
-type TOrderRefund = TYPES.ItemDocument<TYPES.OrderRefund>;
-const OrderRefundSchema = new Schema<TOrderRefund>({
+type OrderRefundDocument = TYPES.ItemDocument<TYPES.OrderRefund>;
+
+const OrderRefundSchema = new Schema<OrderRefundDocument>({
   carrier: { type: String, enum: TYPES.Carrier },
   deliveryDate: String,
   items: [ItemShipment],

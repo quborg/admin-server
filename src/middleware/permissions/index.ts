@@ -1,58 +1,133 @@
 import { IMiddleware } from 'graphql-middleware';
 
+import * as TYPES from 'types';
+import { Order } from 'src/resolvers/models';
+
 import * as rules from './rules';
-import { authenticationError, forbiddenError } from './errors';
+import * as lib from './lib';
 
 const permissions: IMiddleware = {
   Query: {
     getUser: async (resolve, parent, args, context, info) => {
-      rules.isAuthenticated(context.token) || authenticationError();
-      rules.atLeastRegular(context.role) || forbiddenError();
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        lib.toBeOwner(args._id, context);
+      }
       return resolve(parent, args, context, info);
     },
-    // getProduct:,
-    // getCategory: isModerator,
-    // getTag: isModerator,
-    // getColor: isModerator,
-    // getOrder: or(isModerator, isOwnerByArgId('usedId')),
-    // getPromotion: allow,
-    // getPickup: allow,
+    getOrder: async (resolve, parent, args, context, info) => {
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        const secureOrder = <TYPES.Order>await Order.findById(args._id);
+        lib.toBeOwner(secureOrder.userId, context);
+      }
+      return resolve(parent, args, context, info);
+    },
     getUsers: async (resolve, parent, args, context, info) => {
-      rules.isAuthenticated(context.token) || authenticationError();
-      rules.atLeastModerator(context.role) || forbiddenError();
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
       return resolve(parent, args, context, info);
     },
-    // getProducts: allow,
-    // getCategories: isModerator,
-    // getTags: isModerator,
-    // getColors: isModerator,
-    // getOrders: or(isModerator, isOwnerByArgId('usedId')),
-    // getPromotions: allow,
-    // getPickups: allow,
+    getOrders: async (resolve, parent, args, context, info) => {
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        lib.toBeOwner(args.userId, context);
+      }
+      return resolve(parent, args, context, info);
+    },
   },
   Mutation: {
     editUser: async (resolve, parent, inputs, context, info) => {
-      rules.isAuthenticated(context.token) || authenticationError();
-      rules.atLeastModerator(context.role) ||
-        rules.isOwner(inputs._id, context) ||
-        forbiddenError();
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        lib.toBeOwner(inputs._id, context);
+      }
       return resolve(parent, inputs, context, info);
     },
-    // editProduct: isModerator,
-    // editCategory: isModerator,
-    // editTag: isModerator,
-    // editColor: isModerator,
-    // editOrder: or(isModerator, isOwnerByArgId('userId')),
-    // editPromotion: isModerator,
-    // editPickup: isModerator,
-    // deleteUser: or(isModerator, isOwnerByArgId('_id')),
-    // deleteProduct: isModerator,
-    // deleteCategory: isModerator,
-    // deleteTag: isModerator,
-    // deleteColor: isModerator,
-    // deleteOrder: or(isModerator, isOwnerByArgId('userId')),
-    // deletePromotion: isModerator,
-    // deletePickup: isModerator,
+    editProduct: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    editCategory: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    editTag: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    editColor: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    editOrder: async (resolve, parent, inputs, context, info) => {
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        const secureOrder = <TYPES.Order>await Order.findById(inputs._id);
+        lib.toBeOwner(secureOrder.userId, context);
+      }
+      return resolve(parent, inputs, context, info);
+    },
+    editPromotion: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    editPickup: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deleteUser: async (resolve, parent, inputs, context, info) => {
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        lib.toBeOwner(inputs._id, context);
+      }
+      return resolve(parent, inputs, context, info);
+    },
+    deleteProduct: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deleteCategory: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deleteTag: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deleteColor: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deleteOrder: async (resolve, parent, inputs, context, info) => {
+      if (rules.isModerator(context.role)) {
+        lib.atLeastAuthenticatedModerator(context.token, context.role);
+      } else {
+        lib.atLeastAuthenticatedRegular(context.token, context.role);
+        const secureOrder = <TYPES.Order>await Order.findById(inputs._id);
+        lib.toBeOwner(secureOrder.userId, context);
+      }
+      return resolve(parent, inputs, context, info);
+    },
+    deletePromotion: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
+    deletePickup: async (resolve, parent, inputs, context, info) => {
+      lib.atLeastAuthenticatedModerator(context.token, context.role);
+      return resolve(parent, inputs, context, info);
+    },
   },
 };
 

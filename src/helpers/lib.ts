@@ -10,11 +10,8 @@ export const generateToken: TYPES.GenerateTokenFn = ({
   secretCode = ENV.secretCode,
 }) => jwt.sign(payload, secretCode, { expiresIn });
 
-export const verifyToken = (
-  token: string,
-  secretCode: string
-): string | Record<string, unknown> =>
-  <string | Record<string, unknown>>jwt.verify(token, secretCode);
+export const verifyToken = (token: string, secretCode: string): TYPES.Payload =>
+  <TYPES.Payload>jwt.verify(token, secretCode);
 
 export const encryptKeyword: TYPES.EncryptKeyword = async (keyword) =>
   await bcrypt.hash(keyword, 10);

@@ -2,7 +2,7 @@ import { UserInputError, ApolloError } from 'apollo-server';
 import mongoose from 'mongoose';
 
 import * as TYPES from 'types';
-import { Regex, validationConfig } from 'src/helpers/const';
+import { Regex, validationConfig as VC } from 'src/helpers/const';
 import * as helpersLib from 'src/helpers/lib';
 
 const capitalize = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
@@ -10,13 +10,9 @@ const notBeEmpty = (field: string): string => `${capitalize(field)} must not be 
 const notValid = (field: string): string => `${capitalize(field)} is not valid!`;
 const mustContainOne = (desc: string): string => `Must contain at least one ${desc}!`;
 const userInputErrorText = 'User Input Error';
-const {
-  user: {
-    password: { maxLength, minLength },
-  },
-} = validationConfig;
+
 const usernameErrorDescription = `Username can only contain [letters, numbers, -, _] \
-and length between ${minLength} and ${maxLength}`;
+and length between ${VC.user.username.min} and ${VC.user.username.max}`;
 
 export const validateID = (ID: string): void => {
   const isNotValid = !mongoose.Types.ObjectId.isValid(ID);
@@ -88,7 +84,7 @@ export const validatePassword: TYPES.validatePassword = (password, errors) => {
 
 export const validateItem: TYPES.validateItem = (
   item,
-  itemName = 'Item',
+  itemName,
   argumentName,
   msg = 'not valid!'
 ): void => {
@@ -129,7 +125,7 @@ export const compareUpdatedItem: TYPES.compareUpdatedItem = (
   savedItem,
   modelName = 'Item'
 ): void => {
-  validateItem(savedItem, modelName, '_id', 'not saved. Try later!');
+  validateItem(savedItem, modelName, '_id', 'not saved, try later!');
   Object.keys(changes).map((key) => {
     const failed = (changes as any)[key] !== (savedItem as any)[key];
     if (failed) throw new ApolloError('Server fail to save. Try later!');

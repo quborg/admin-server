@@ -11,6 +11,7 @@ const {
   GOOGLE_OAUTH2_REFRESH_TOKEN = '',
   GOOGLE_OAUTH2_ACCESS_TOKEN = '',
   NO_REPLAY_EMAIL_ADDRESS = '',
+  CLIENT_HOSTNAME = '',
 } = process.env;
 
 const IS_DEV = NODE_ENV === 'development';
@@ -20,6 +21,7 @@ const MODE = IS_PROD ? 'production' : 'development';
 const CONST = {
   HOST,
   PORT,
+  CLIENT_HOSTNAME,
   MONGO_CONNECT,
   INTROSPECTION: IS_DEV,
   PLAYGROUND: IS_DEV,

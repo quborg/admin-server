@@ -25,16 +25,22 @@ export const Regex: RegexType = {
 export const validationConfig = {
   user: {
     name: {
-      minLength: 2,
-      maxLength: 26,
+      min: 2,
+      max: 26,
     },
     username: {
-      minLength: 3,
-      maxLength: 16,
+      min: 3,
+      max: 16,
     },
-    password: {
-      minLength: 8,
-      maxLength: 256,
+    pass: {
+      min: 8,
+      max: 256,
+    },
+  },
+  tag: {
+    name: {
+      min: 2,
+      max: 12,
     },
   },
 };

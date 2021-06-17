@@ -1,32 +1,26 @@
 import * as TYPES from 'types';
+
 import { Category } from '../models';
-import Helper, { errorsHandler } from 'src/helpers';
 
 const categories: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
-    getCategory: async (_, _id, context) => {
+    getCategory: async (_, _id) => {
       try {
-        errorsHandler.authentication(context);
         const category = await Category.findById(_id);
         return category;
       } catch (err) {
         throw new Error(err);
       }
     },
-    getCategories: async (_, { args }, context) => {
+    getCategories: async (_, { args }) => {
       try {
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
         let categories;
         if (!args?.keyword) {
           categories = await Category.find().skip(args?.start).limit(args?.limit).lean();
         } else {
           const query = args.keyword.toString();
           categories = await Category.find({
-            $or: [
-              { _englishName: { $regex: query, $options: 'i' } },
-              { _dutchName: { $regex: query, $options: 'i' } },
-            ],
+            name: { $regex: query, $options: 'i' },
           })
             .skip(args?.start)
             .limit(args?.limit)
@@ -39,20 +33,19 @@ const categories: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
     },
   },
   Mutation: {
-    editCategory: async (_, { inputs }, context) => {
+    editCategory: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
-        if (Object.keys(changes).length > 0) {
-          errorsHandler.authentication(context);
-          const _category = await Category.findById(_id);
-          errorsHandler.noItem('Category');
-          if (_category) {
-            await _category.updateOne(changes);
-            const category = await Category.findById(_id, null, { lean: true });
-            return category;
-          }
-        }
-        return null;
+        const category = await Category.findByIdAndUpdate(_id, changes, { lean: true });
+        return category;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    deleteCategory: async (_, _id) => {
+      try {
+        const category = <TYPES.Category>await Category.findByIdAndDelete(_id, { lean: true });
+        return !!category;
       } catch (err) {
         throw new Error(err);
       }

@@ -1,11 +1,13 @@
 import { model, Schema } from 'mongoose';
+
 import * as TYPES from 'types';
 
 import { Price } from './components';
 
-type TPromotion = TYPES.ItemDocument<TYPES.Promotion>;
+type PromotionDocument = TYPES.ItemDocument<TYPES.Promotion>;
+type PromotionModel = TYPES.ItemModel<PromotionDocument>;
 
-const PromotionSchema = new Schema<TPromotion>({
+const PromotionSchema = new Schema<PromotionDocument, PromotionModel>({
   type: {
     type: String,
     enum: Object.values(TYPES.PromotionType),
@@ -33,6 +35,6 @@ const PromotionSchema = new Schema<TPromotion>({
   endTime: String,
 });
 
-const PromotionModel = model<TPromotion>('Promotion', PromotionSchema);
+const PromotionModel = model<PromotionDocument, PromotionModel>('Promotion', PromotionSchema);
 
 export default PromotionModel;

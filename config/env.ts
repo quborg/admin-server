@@ -6,6 +6,7 @@ interface Environment {
     playground: boolean;
   };
   hostname: string;
+  clientHostname: string;
   port: number | string;
   mode: string;
   mongoConnect: string;
@@ -27,6 +28,7 @@ const Env: Environment = {
     playground: CONST.PLAYGROUND,
   },
   hostname: <string>CONST.HOST,
+  clientHostname: CONST.CLIENT_HOSTNAME,
   port: <string>CONST.PORT,
   mode: CONST.MODE,
   mongoConnect: <string>CONST.MONGO_CONNECT,

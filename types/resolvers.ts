@@ -30,6 +30,7 @@ export interface FiltersArgs {
   filter: string;
   start: number;
   limit: number;
+  userId: string;
 }
 export interface LoginArgs extends Record<string, any> {
   email: string;

@@ -14,10 +14,12 @@ const OrderAnnotation = new Schema<TYPES.OrderAnnotation>({
   value: String,
 });
 
-type TOrder = TYPES.ItemDocument<TYPES.Order>;
-const OrderSchema = new Schema<TOrder>(
+type OrderDocument = TYPES.ItemDocument<TYPES.Order>;
+type OrderModel = TYPES.ItemModel<OrderDocument>;
+
+const OrderSchema = new Schema<OrderDocument, OrderModel>(
   {
-    usedId: String,
+    userId: String,
     items: [ItemShipment],
     status: { type: String, enum: TYPES.OrderStatus },
     paymentStatus: { type: String, enum: TYPES.PaymentStatus },
@@ -40,6 +42,6 @@ const OrderSchema = new Schema<TOrder>(
   }
 );
 
-const OrderModel = model<TOrder>('Order', OrderSchema);
+const OrderModel = model<OrderDocument, OrderModel>('Order', OrderSchema);
 
 export default OrderModel;

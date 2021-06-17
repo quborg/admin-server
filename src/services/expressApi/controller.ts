@@ -19,17 +19,17 @@ const Controllers: TControllers = {
     } catch (error) {
       res.status(500).json({ error });
     }
-    const user = await Models.User.findByIdAndUpdate(userId, { verified: true });
+    const user = await Models.User.findByIdAndUpdate(userId, {
+      verified: true,
+      role: TYPES.Role.REGULAR,
+    });
     if (user?.verified) {
-      await Models.EmailVerification.findOneAndRemove(
-        { userId },
-        null,
-        function (error, docs) {
-          if (error) res.status(500).json({ error });
-        }
-      );
-      res.status(200).json({ msg: 'User Verified' });
+      await Models.EmailVerification.findOneAndRemove({ userId }, null, (error, docs) => {
+        if (error) res.status(500).json({ error });
+      });
+      res.redirect(`${ENV.clientHostname}/?verified=true`);
     }
+    next();
   },
 };
 

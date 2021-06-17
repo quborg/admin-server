@@ -1,13 +1,15 @@
 import { model, Schema } from 'mongoose';
+
 import * as TYPES from 'types';
 
-type TColor = TYPES.ItemDocument<TYPES.Color>;
+type ColorDocument = TYPES.ItemDocument<TYPES.Color>;
+type ColorModel = TYPES.ItemModel<ColorDocument>;
 
-const ColorSchema = new Schema<TColor>({
+const ColorSchema = new Schema<ColorDocument, ColorModel>({
   name: { type: String, required: true },
   code: String,
 });
 
-const ColorModel = model<TColor>('Color', ColorSchema);
+const ColorModel = model<ColorDocument, ColorModel>('Color', ColorSchema);
 
 export default ColorModel;

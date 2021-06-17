@@ -1,84 +1,56 @@
 import * as TYPES from 'types';
-import { Section } from '../models';
-import { errorsHandler, sectionQuestionsInfo } from 'src/helpers';
 
-const sections: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
+import { Order } from '../models';
+
+const orders: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
-    getSection: async (_, _id, context) => {
+    getOrder: async (_, _id) => {
       try {
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
-        let section;
-        section = await Section.findById(_id, null, { lean: true });
-        if (section?.name) {
-          const questionsInfo = await sectionQuestionsInfo(section.name);
-          section = { ...section, ...questionsInfo };
-        }
-        return section;
+        const order = await Order.findById(_id);
+        return order;
       } catch (err) {
         throw new Error(err);
       }
     },
-    getSections: async (_, { args }, context) => {
+    getOrders: async (_, { args }) => {
       try {
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
-        let sections;
-        if (!args?.keyword) {
-          sections = await Section.find({ ...args?.filter })
+        let orders: TYPES.Maybe<TYPES.Order[]>;
+        if (!args?.userId) {
+          orders = await Order.find({ userId: args.userId })
             .skip(args?.start)
             .limit(args?.limit)
-            .sort({ isActive: -1 })
             .lean();
+        } else if (!args?.keyword) {
+          orders = await Order.find().skip(args?.start).limit(args?.limit).lean();
         } else {
           const query = args.keyword.toString();
-          sections = await Section.find({
+          orders = await Order.find({
             name: { $regex: query, $options: 'i' },
           })
             .skip(args?.start)
             .limit(args?.limit)
-            .sort({ isActive: -1 })
             .lean();
         }
-        sections = <TYPES.Section[]>sections.map(async (_section) => {
-          let questionsInfo;
-          if (_section?.name) questionsInfo = await sectionQuestionsInfo(_section.name);
-          const section = { ..._section, ...questionsInfo };
-          return <TYPES.Section>section;
-        });
-        return sections;
+        return orders;
       } catch (err) {
         throw new Error(err);
       }
     },
   },
   Mutation: {
-    editSection: async (_, { inputs }, context) => {
+    editOrder: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
-        const _section = await Section.findById(_id);
-        errorsHandler.noItem('Section');
-        if (_section) {
-          await _section.updateOne(changes);
-          const section = await Section.findById(_id, null, { lean: true });
-          return section;
-        }
-        return null;
+        const order = await Order.findByIdAndUpdate(_id, changes, { lean: true });
+        return order;
       } catch (err) {
         throw new Error(err);
       }
     },
-    deleteSection: async (_, _id, context) => {
+    deleteOrder: async (_, _id) => {
       try {
-        errorsHandler.authentication(context);
-        errorsHandler.authorization(context);
-        const section = await Section.findById(_id, null, { lean: true });
-        if (section?.isActive)
-          throw new Error(`Delete Denied! Section "${section?.name}" is Active`);
-        await Section.findByIdAndDelete(_id);
-        return true;
+        const order = <TYPES.Order>await Order.findByIdAndDelete(_id, { lean: true });
+        return !!order;
       } catch (err) {
         throw new Error(err);
       }
@@ -86,4 +58,4 @@ const sections: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   },
 };
 
-export default sections;
+export default orders;
