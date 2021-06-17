@@ -18,16 +18,17 @@
     "start": "webpack --config config/webpack/prod.ts",
     "dev": "webpack --config config/webpack/dev.ts",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
-    "format": "prettier --write '*/**/*.ts' && npm run git-amend",
-    "git-amend": "git add . && git commit --no-verify --amend --no-edit",
+    "format": "prettier --write '*/**/*.ts'",
+    "git-amend": "git add . && git commit --amend --no-edit",
+    "git-no-verify": "git add . && git commit --no-verify",
     "pre-commit-msg": "echo 'Pre-commit linting errors checks...' && exit 0"
   },
   "pre-commit": {
     "onDirtyState": "fail",
     "run": [
       "pre-commit-msg",
-      "lint",
-      "format"
+      "format",
+      "lint"
     ]
   },
   "dependencies": {
