@@ -12,7 +12,7 @@ type TControllers = {
 
 const Controllers: TControllers = {
   emailVerification: async (req, res, next) => {
-    const { hash, userId } = req.params;
+    const { userId, hash } = req.params;
     if (!hash || !userId) res.status(400).json({ msg: 'error: wrong params provided.' });
     try {
       await validateParams(userId, hash);
@@ -30,7 +30,6 @@ const Controllers: TControllers = {
       );
       res.status(200).json({ msg: 'User Verified' });
     }
-    next();
   },
 };
 

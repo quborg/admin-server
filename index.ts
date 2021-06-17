@@ -19,8 +19,8 @@ import { expressApi as app } from 'src/services';
 const schema = applyMiddleware(
   makeExecutableSchema({ typeDefs, resolvers }),
   permissions,
-  afterValidations,
-  beforeValidations
+  beforeValidations,
+  afterValidations
 );
 
 async function startApolloServer() {

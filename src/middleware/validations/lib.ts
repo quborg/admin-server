@@ -39,7 +39,6 @@ export const validateToken: TYPES.ValidateToken = ({
   payloadArgs.map((arg) => {
     if (payload[arg] !== decoded[arg]) throw new UserInputError('Wrong token signature!');
   });
-  console.log('validateToken', decoded);
 };
 
 export const validateName: TYPES.validateName = (name, errors) => {
