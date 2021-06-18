@@ -1,26 +1,28 @@
 {
-  "name": "admin-panel-server",
-  "version": "1.0.0",
+  "name": "ecom-app-now-server",
+  "version": "0.1.0",
   "license": "MIT",
-  "private": false,
-  "type": "module",
-  "engines": {
-    "yarn": ">=1.22.x"
-  },
-  "main": "build/index.production.cjs",
+  "private": true,
+  "description": "apollo-server-ts, jwt, nodemailer, mongo-atlas, express",
+  "repository": "git@github.com:quborg/e-comm-server.git",
   "contributors": [
     {
       "name": "Miloud Lafttah",
       "email": "miloud.lafttah@gmail.com"
     }
   ],
+  "engines": {
+    "yarn": ">=1.22.x"
+  },
+  "main": "build/index.production.cjs",
+  "type": "module",
   "scripts": {
-    "start": "webpack --config config/webpack/prod.ts",
+    "prod-node": "webpack --config config/webpack/prod.ts",
+    "only-build": "BUILD_ONLY=1 webpack --config config/webpack/prod.ts",
+    "run-dist": "node ./dist/index.production.cjs",
     "dev": "webpack --config config/webpack/dev.ts",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
     "format": "prettier --write '*/**/*.ts'",
-    "git-amend": "git add . && git commit --amend --no-edit",
-    "git-no-verify": "git add . && git commit --no-verify",
     "pre-commit-msg": "echo 'Pre-commit linting errors checks...' && exit 0"
   },
   "pre-commit": {

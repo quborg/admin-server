@@ -5,8 +5,8 @@ import { emailVerification } from './routes';
 const app = express();
 
 app
-  .get('/', function (req, res) {
-    res.send('Server: "السلام عليكم Essalam Alekum !"');
+  .get('/api', function (req, res) {
+    res.send('Server API: "السلام عليكم Essalam Alekum !"');
   })
   .use('/api', emailVerification);
 

@@ -7,13 +7,16 @@ import PATHS from '../paths';
 process.env.NODE_ENV = 'production';
 import common from './common';
 
+const { VERCEL, BUILD_ONLY } = process.env;
+const onlyBuild = VERCEL || BUILD_ONLY;
+
 const prodConfig = merge(common, {
   devtool: 'source-map',
   entry: PATHS.mainEntry,
   externals: [nodeExternals({})],
   plugins: [
     new CleanWebpackPlugin(),
-    new RunNodeWebpackPlugin({ scriptToRun: PATHS.nodeScript }),
+    ...(onlyBuild ? [] : [new RunNodeWebpackPlugin({ scriptToRun: PATHS.prodScript })]),
   ],
 });
 

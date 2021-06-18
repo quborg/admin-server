@@ -21,7 +21,7 @@ const common: Configuration = {
   },
   output: {
     filename: `index.${mode}.cjs`,
-    path: PATHS.build,
+    path: IS_PROD ? PATHS.dist : PATHS.build,
   },
   resolve: {
     extensions: ['.ts', '.js', 'html'],

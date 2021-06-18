@@ -12,19 +12,21 @@ const {
   GOOGLE_OAUTH2_ACCESS_TOKEN = '',
   NO_REPLAY_EMAIL_ADDRESS = '',
   CLIENT_HOSTNAME = '',
+  VERCEL,
 } = process.env;
 
 const IS_DEV = NODE_ENV === 'development';
 const IS_PROD = NODE_ENV === 'production';
 const MODE = IS_PROD ? 'production' : 'development';
+const IS_VERCEL = VERCEL === '1';
 
 const CONST = {
   HOST,
   PORT,
   CLIENT_HOSTNAME,
   MONGO_CONNECT,
-  INTROSPECTION: IS_DEV,
-  PLAYGROUND: IS_DEV,
+  INTROSPECTION: IS_DEV || IS_VERCEL,
+  PLAYGROUND: IS_DEV || IS_VERCEL,
   MODE,
   SECRET_CODE,
   SECRET_CODE2,
