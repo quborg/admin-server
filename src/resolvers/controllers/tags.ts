@@ -1,10 +1,10 @@
 import * as TYPES from 'types';
 
-import { Color as Tag } from '../models';
+import { Tag } from '../models';
 
 const tags: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
-    getColor: async (_, _id) => {
+    getTag: async (_, _id) => {
       try {
         const tag = await Tag.findById(_id);
         return tag;
@@ -12,7 +12,7 @@ const tags: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    getColors: async (_, { args }) => {
+    getTags: async (_, { args }) => {
       try {
         let tags;
         if (!args?.keyword) {
@@ -33,7 +33,7 @@ const tags: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
     },
   },
   Mutation: {
-    editColor: async (_, { inputs }) => {
+    editTag: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
         const tag = await Tag.findByIdAndUpdate(_id, changes, { lean: true });
@@ -42,7 +42,7 @@ const tags: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
         throw new Error(err);
       }
     },
-    deleteColor: async (_, _id) => {
+    deleteTag: async (_, _id) => {
       try {
         const tag = <TYPES.Tag>await Tag.findByIdAndDelete(_id, { lean: true });
         return !!tag;

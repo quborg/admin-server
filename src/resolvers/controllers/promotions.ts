@@ -6,8 +6,8 @@ const promotions: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
     getPromotion: async (_, _id) => {
       try {
-        const category = await Promotion.findById(_id);
-        return category;
+        const promotion = await Promotion.findById(_id);
+        return promotion;
       } catch (err) {
         throw new Error(err);
       }
@@ -36,18 +36,18 @@ const promotions: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
     editPromotion: async (_, { inputs }) => {
       try {
         const { _id, ...changes } = inputs;
-        const category = await Promotion.findByIdAndUpdate(_id, changes, { lean: true });
-        return category;
+        const promotion = await Promotion.findByIdAndUpdate(_id, changes, { lean: true });
+        return promotion;
       } catch (err) {
         throw new Error(err);
       }
     },
     deletePromotion: async (_, _id) => {
       try {
-        const category = <TYPES.Promotion>(
+        const promotion = <TYPES.Promotion>(
           await Promotion.findByIdAndDelete(_id, { lean: true })
         );
-        return !!category;
+        return !!promotion;
       } catch (err) {
         throw new Error(err);
       }

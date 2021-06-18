@@ -10,7 +10,7 @@ const createEmailVerification: TYPES.EmailVerificationCreate = async (userId) =>
     hash: Helpers.generateToken({
       payload: { userId },
       secretCode: ENV.secretCode2,
-      expiresIn: 72,
+      expiresIn: '10',
     }),
   };
   const emailVerification = <TYPES.EmailVerification>(

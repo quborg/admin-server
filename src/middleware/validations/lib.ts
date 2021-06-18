@@ -29,12 +29,16 @@ export const validateToken: TYPES.ValidateToken = ({
   token,
   secretCode,
 }) => {
-  const decoded = <TYPES.Payload>helpersLib.verifyToken(token, secretCode);
-  const now = new Date().getTime() / 1000;
-  if (!decoded.exp || decoded.exp < now) throw new UserInputError('Token expired!');
-  payloadArgs.map((arg) => {
-    if (payload[arg] !== decoded[arg]) throw new UserInputError('Wrong token signature!');
-  });
+  try {
+    const decoded = <TYPES.Payload>helpersLib.verifyToken(token, secretCode);
+    const now = new Date().getTime() / 1000;
+    if (!decoded.exp || decoded.exp < now) throw new UserInputError('Token expired!');
+    payloadArgs.map((arg) => {
+      if (payload[arg] !== decoded[arg]) throw new UserInputError('Wrong token signature!');
+    });
+  } catch (error) {
+    throw new UserInputError('Token error', error);
+  }
 };
 
 export const validateName: TYPES.validateName = (name, errors) => {

@@ -1,8 +1,6 @@
 import { model, Schema } from 'mongoose';
 import * as TYPES from 'types';
 
-import Pickup from './Pickup';
-import Promotion from './Promotion';
 import { OrderAddress, Shipment, ItemShipment, Price, OrderRefund } from './components';
 
 const OrderDeliveryDetails = new Schema<TYPES.OrderDeliveryDetails>({
@@ -30,11 +28,11 @@ const OrderSchema = new Schema<OrderDocument, OrderModel>(
     shipments: [Shipment],
     shippingCost: Price,
     shippingCostTax: Price,
-    promotions: [Promotion],
+    promotions: [{ type: Schema.Types.ObjectId, ref: 'Promotion' }],
     refund: OrderRefund,
     netPriceAmount: Price,
     netTaxAmount: Price,
-    pickup: Pickup,
+    pickup: { type: Schema.Types.ObjectId, ref: 'Pickup' },
     annotations: [OrderAnnotation],
   },
   {
