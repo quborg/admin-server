@@ -18,7 +18,7 @@ const {
 const IS_DEV = NODE_ENV === 'development';
 const IS_PROD = NODE_ENV === 'production';
 const MODE = IS_PROD ? 'production' : 'development';
-const IS_VERCEL = VERCEL === '1';
+const IS_VERCEL = !!VERCEL;
 
 const CONST = {
   HOST,
