@@ -14,7 +14,7 @@
   "engines": {
     "yarn": ">=1.22.x"
   },
-  "main": "build/index.production.cjs",
+  "main": "dist/index.production.cjs",
   "type": "module",
   "scripts": {
     "prod-node": "webpack --config config/webpack/prod.ts",
