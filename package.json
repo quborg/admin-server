@@ -19,7 +19,8 @@
   "scripts": {
     "prod-node": "webpack --config config/webpack/prod.ts",
     "dist": "BUILD_ONLY=1 webpack --config config/webpack/prod.ts",
-    "build": "node ./dist/index.production.cjs",
+    "dist-run": "node ./dist/index.production.cjs",
+    "build": "yarn dist",
     "dev": "webpack --config config/webpack/dev.ts",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
     "format": "prettier --write '*/**/*.ts'",
