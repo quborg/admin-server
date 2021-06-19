@@ -12,4 +12,4 @@ GOOGLE_CLIENT_ID=683152462547-a2dkia914rcuk49ed6f4gltjupme94kq.apps.googleuserco
 GOOGLE_CLIENT_SECRET=AiRxwmbcDrrwSvjxryneHVjL
 GOOGLE_OAUTH2_REFRESH_TOKEN=1//04f-FvU1icJxsCgYIARAAGAQSNwF-L9Irkfu_wJMN8A_fjsnQMr6b_neyNBbwUgI8S2e3hvK8nW5F-RbIvl0mqg8tArAzPSE_i0s
 
-NO_REPLAY_EMAIL_ADDRESS=noreply.ecom.app.now@gmail.com
+NO_REPLAY_EMAIL_ADDRESS=noreply.ecom.app.now@heroku.com

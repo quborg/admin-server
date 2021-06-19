@@ -2,6 +2,7 @@ const {
   HOST,
   NODE_ENV,
   PORT,
+  port,
   MONGO_CONNECT,
   SECRET_CODE,
   SECRET_CODE2,
@@ -20,7 +21,7 @@ const MODE = IS_PROD ? 'production' : 'development';
 
 const CONST = {
   HOST,
-  PORT,
+  PORT: port || PORT,
   CLIENT_HOSTNAME,
   MONGO_CONNECT,
   INTROSPECTION: IS_DEV,
