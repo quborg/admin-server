@@ -23,7 +23,6 @@
     "dev": "webpack --config config/webpack/dev.ts",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
     "format": "prettier --write '*/**/*.ts'",
-    "git-no": "prettier --write '*/**/*.ts'",
     "pre-commit-msg": "echo 'Pre-commit linting errors checks...' && exit 0"
   },
   "pre-commit": {
