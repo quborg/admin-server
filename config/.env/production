@@ -1,6 +1,7 @@
 HOST=0.0.0.0
 PORT=5000
 CLIENT_HOSTNAME=http://0.0.0.0:80
+HEROKU_APP_NAME=ecom-app-server
 
 SECRET_CODE=@Z@gRE%(*&)WP3iD$#!4)(&#
 SECRET_CODE2=!MéD$^F6E`$0OAZ/0à</4Re$
@@ -10,7 +11,7 @@ MONGO_CONNECT=mongodb+srv://ecom-app-now-user-dev:8rrZzAM02cgwaa8m@cluster0.7ku7
 GOOGLE_EMAIL_ADDRESS=ecom.app.now@gmail.com
 GOOGLE_CLIENT_ID=683152462547-a2dkia914rcuk49ed6f4gltjupme94kq.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=AiRxwmbcDrrwSvjxryneHVjL
-GOOGLE_OAUTH2_REFRESH_TOKEN=1//04f-FvU1icJxsCgYIARAAGAQSNwF-L9Irkfu_wJMN8A_fjsnQMr6b_neyNBbwUgI8S2e3hvK8nW5F-RbIvl0mqg8tArAzPSE_i0s
+GOOGLE_OAUTH2_REFRESH_TOKEN=1//04sTSootg2UG-CgYIARAAGAQSNwF-L9Ir3yaLFokJW33ftSn2DsibWhvgAWm8f3jdxWEEmwT9-CWCPtz9xz91zLL4hmB55drwbtw
 
 NO_REPLAY_EMAIL_ADDRESS=noreply.ecom.app.now@gmail.com
 

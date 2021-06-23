@@ -37,9 +37,8 @@ async function startApolloServer() {
 
   app.listen({ port: ENV.port }, () => {
     const { graphqlPath, subscriptionsPath } = server;
-    const url = [ENV.hostname, ENV.port].join(':');
-    console.log('🚀 Server ready at http://%s%s', url, graphqlPath);
-    console.log('🚀 Subscriptions ready at ws://%s%s', url, subscriptionsPath);
+    console.log('🚀 Server ready at http://%s%s', ENV.domain, graphqlPath);
+    console.log('🚀 Subscriptions ready at ws://%s%s', ENV.domain, subscriptionsPath);
     mongoose.Schema.Types.String.set('trim', true);
     mongoose.set('returnOriginal', false);
     mongoose
@@ -49,7 +48,7 @@ async function startApolloServer() {
         useFindAndModify: false,
         useCreateIndex: true,
       })
-      .then(() => console.log('🚀 MongoDB Connected Successfully !'))
+      .then(() => console.log('🚀 Mongo DataBase Connected Successfully !'))
       .catch((err) => {
         throw new Error(err);
       });

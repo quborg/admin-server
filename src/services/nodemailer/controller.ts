@@ -1,5 +1,3 @@
-import { ApolloError } from 'apollo-server';
-
 import * as TYPES from 'types';
 import * as Models from 'src/resolvers/models';
 import * as Helpers from 'src/helpers';
@@ -12,17 +10,12 @@ const createEmailVerification: TYPES.EmailVerificationCreate = async (userId) =>
     hash: Helpers.generateToken({
       payload: { userId },
       secretCode: ENV.secretCode2,
-      expiresIn: '10',
+      expiresIn: '7d',
     }),
   };
-  let emailVerification = <TYPES.EmailVerification>{};
-  try {
-    emailVerification = <TYPES.EmailVerification>(
-      await Models.EmailVerification.create(emailInputs)
-    );
-  } catch (error) {
-    throw new ApolloError(error);
-  }
+  const emailVerification = <TYPES.EmailVerification>(
+    await Models.EmailVerification.create(emailInputs)
+  );
   return emailVerification;
 };
 

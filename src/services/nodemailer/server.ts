@@ -2,11 +2,12 @@ import { createTransport } from 'nodemailer';
 
 import * as TYPES from 'types';
 
-import { config, options } from './config';
+import { getConfig, options } from './config';
 
-const transport = createTransport(config);
-
-const sendEmailVerification: TYPES.NodemailerSend = async (user, hash) =>
+export const sendEmailVerification: TYPES.NodemailerSend = async (user, hash) => {
+  const config = await getConfig();
+  const transport = await createTransport(config);
   await transport.sendMail(options(user, hash));
+};
 
-export default { sendEmailVerification };
+export default {};

@@ -2,7 +2,7 @@ const {
   HOST,
   NODE_ENV,
   PORT,
-  port,
+  port = PORT,
   MONGO_CONNECT,
   SECRET_CODE,
   SECRET_CODE2,
@@ -13,19 +13,24 @@ const {
   GOOGLE_OAUTH2_ACCESS_TOKEN = '',
   NO_REPLAY_EMAIL_ADDRESS = '',
   CLIENT_HOSTNAME = '',
+  HEROKU,
+  HEROKU_APP_NAME,
 } = process.env;
 
 const IS_DEV = NODE_ENV === 'development';
 const IS_PROD = NODE_ENV === 'production';
+const IS_HEROKU = !!HEROKU;
 const MODE = IS_PROD ? 'production' : 'development';
+const HEROKU_DOMAIN_NAME = `${HEROKU_APP_NAME}.herokuapp.com`;
 
 const CONST = {
-  HOST,
-  PORT: port || PORT,
+  HOST: IS_HEROKU ? HEROKU_DOMAIN_NAME : HOST,
+  PORT: port,
   CLIENT_HOSTNAME,
+  DOMAIN: IS_HEROKU ? HEROKU_DOMAIN_NAME : `${HOST}:${port}`,
   MONGO_CONNECT,
-  INTROSPECTION: IS_DEV,
-  PLAYGROUND: IS_DEV,
+  INTROSPECTION: IS_DEV || IS_HEROKU,
+  PLAYGROUND: IS_DEV || IS_HEROKU,
   MODE,
   SECRET_CODE,
   SECRET_CODE2,
@@ -41,6 +46,7 @@ const CONST = {
     OAUTH2_ACCESS_TOKEN: GOOGLE_OAUTH2_ACCESS_TOKEN,
     NO_REPLAY: NO_REPLAY_EMAIL_ADDRESS,
   },
+  HEROKU,
 };
 
 export default CONST;

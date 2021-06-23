@@ -6,6 +6,7 @@ interface Environment {
     playground: boolean;
   };
   hostname: string;
+  domain: string;
   clientHostname: string;
   port: number | string;
   mode: string;
@@ -20,6 +21,7 @@ interface Environment {
     refreshToken: string;
     noReplay: string;
   };
+  heroku: string;
 }
 
 const Env: Environment = {
@@ -28,6 +30,7 @@ const Env: Environment = {
     playground: CONST.PLAYGROUND,
   },
   hostname: <string>CONST.HOST,
+  domain: CONST.DOMAIN,
   clientHostname: CONST.CLIENT_HOSTNAME,
   port: <string>CONST.PORT,
   mode: CONST.MODE,
@@ -42,6 +45,7 @@ const Env: Environment = {
     refreshToken: CONST.GOOGLE.OAUTH2_REFRESH_TOKEN,
     noReplay: CONST.GOOGLE.NO_REPLAY,
   },
+  heroku: <string>CONST.HEROKU,
 };
 
 export default Env;
