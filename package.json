@@ -24,7 +24,7 @@
     "prod": "webpack --config config/webpack/prod.ts",
     "dev": "webpack --config config/webpack/dev.ts",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
-    "format": "prettier --write '*/**/*.ts'",
+    "format": "prettier --write '*/**/*.{ts,html}'",
     "pre-commit-msg": "echo 'Pre-commit linting errors checks...' && exit 0"
   },
   "pre-commit": {
@@ -47,6 +47,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "generate-avatar": "^1.4.10",
     "googleapis": "^77.0.0",
     "graphql": "^15.5.0",
     "graphql-middleware": "^6.0.10",

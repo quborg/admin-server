@@ -23,6 +23,7 @@ export enum ProductAvailability {
 }
 export type Image = {
   path: string;
+  svg: string;
   filename: string;
   mimetype: string;
 };

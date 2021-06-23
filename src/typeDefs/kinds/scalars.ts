@@ -18,12 +18,14 @@ const ScalarsTypeDefs = gql`
     CHILD
   }
   type Image {
-    path: String!
+    path: String
+    svg: String
     filename: String
     mimetype: String
   }
   input ImageInput {
-    path: String!
+    path: String
+    svg: String
     filename: String
   }
   enum OrderStatus {

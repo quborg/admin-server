@@ -1,3 +1,5 @@
+import { generateFromString } from 'generate-avatar';
+
 import * as TYPES from 'types';
 import * as Helpers from 'src/helpers';
 
@@ -45,8 +47,11 @@ const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Mutation: {
     signUp: async (_, { inputs }) => {
       try {
-        inputs.password = await Helpers.encryptKeyword(inputs.password);
+        const { _id: ID, email, password } = inputs;
+        inputs.password = await Helpers.encryptKeyword(password);
+        inputs.avatar = { svg: generateFromString(`${ID}.${email}`) };
         const user = await User.create(inputs);
+        user.token = Helpers.generateToken({ payload: { email, ID } });
         return user;
       } catch (err) {
         throw new Error(err);

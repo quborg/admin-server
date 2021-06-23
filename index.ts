@@ -1,4 +1,4 @@
-/// <reference path="types/modules/html.d.ts" />
+/// <reference path="types/modules/index.d.ts" />
 
 import PATHS from 'config/paths';
 import { config } from 'dotenv';
