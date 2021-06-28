@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 
 const ArgsTypeDefs = gql`
-  input LoginArgs {
+  input SignInArgs {
     email: String!
     password: String!
   }

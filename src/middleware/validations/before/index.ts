@@ -7,8 +7,8 @@ const ModelName = 'User';
 
 const validations: IMiddleware = {
   Query: {
-    login: async (resolve, _, { args }) => {
-      await RH.validateLogin(args);
+    signIn: async (resolve, _, { args }) => {
+      await RH.validateSignIn(args);
       return resolve(_, { args });
     },
     // getUser: async (resolve, _, { _id }) => {

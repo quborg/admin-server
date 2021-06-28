@@ -7,7 +7,7 @@ import { User } from '../models';
 
 const users: { Query: TYPES.Query; Mutation: TYPES.Mutation } = {
   Query: {
-    login: async (_, { args: { email } }) => {
+    signIn: async (_, { args: { email } }) => {
       try {
         const user = <TYPES.User>await User.findOne({ email }).lean();
         user.token = Helpers.generateToken({ payload: { email, ID: user._id } });

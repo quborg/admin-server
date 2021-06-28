@@ -2,7 +2,7 @@ import { gql } from 'apollo-server';
 
 const QueriesTypeDefs = gql`
   type Query {
-    login(args: LoginArgs): User
+    signIn(args: SignInArgs): User
 
     getUser(_id: ID!): User
     getProduct(_id: ID!): Product

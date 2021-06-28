@@ -32,11 +32,11 @@ export interface FiltersArgs {
   limit: number;
   userId: string;
 }
-export interface LoginArgs extends Record<string, any> {
+export interface SignInArgs extends Record<string, any> {
   email: string;
   password: string;
 }
-export interface SignUpInputs extends LoginArgs {
+export interface SignUpInputs extends SignInArgs {
   username: string;
   email: string;
 }
@@ -44,7 +44,7 @@ export interface SignUpInputs extends LoginArgs {
 type parent = any;
 
 export type Query = {
-  login?: (_: parent, __: { args: LoginArgs }) => Promise<Maybe<User>>;
+  signIn?: (_: parent, __: { args: SignInArgs }) => Promise<Maybe<User>>;
 
   getUser?: (_: parent, _id: string, context: Context) => Promise<Maybe<User>>;
   getProduct?: (_: parent, _id: string, context: Context) => Promise<Maybe<Product>>;

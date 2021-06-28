@@ -16,12 +16,12 @@ export const validateSignUp = (inputs: TYPES.SignUpInputs): void => {
   lib.throwErrors(errors, 'Sign up');
 };
 
-export const validateLogin = async (args: TYPES.LoginArgs): Promise<void> => {
+export const validateSignIn = async (args: TYPES.SignInArgs): Promise<void> => {
   const errors: TYPES.ErrorsPropertyType = {};
   const { email, password } = args;
   lib.validateEmail(email, errors);
   lib.validatePassword(password, errors);
-  lib.throwErrors(errors, 'Login');
+  lib.throwErrors(errors, 'Sign in');
 
   const user = <TYPES.User>await Models.User.findOne({ email }).lean();
   lib.validateItem(user, 'User', 'email', 'not found');
