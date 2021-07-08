@@ -13,7 +13,7 @@ export const validateSignUp = (inputs: TYPES.SignUpInputs): void => {
   lib.validateUsername(username, errors);
   lib.validateEmail(email, errors);
   lib.validatePassword(password, errors);
-  lib.throwErrors(errors, 'Sign up');
+  lib.throwInputsErrors(errors, 'Sign up');
 };
 
 export const validateSignIn = async (args: TYPES.SignInArgs): Promise<void> => {
@@ -21,7 +21,7 @@ export const validateSignIn = async (args: TYPES.SignInArgs): Promise<void> => {
   const { email, password } = args;
   lib.validateEmail(email, errors);
   lib.validatePassword(password, errors);
-  lib.throwErrors(errors, 'Sign in');
+  lib.throwInputsErrors(errors, 'Sign in');
 
   const user = <TYPES.User>await Models.User.findOne({ email }).lean();
   lib.validateItem(user, 'User', 'email', 'not found');
@@ -44,13 +44,13 @@ export const validateEditingItem = async (
   ModelName: string
 ): Promise<void> => {
   const { _id, ...changes } = inputs;
-  if (!Object.keys(changes).length) throw new UserInputError('No changes received!');
+  if (!Object.keys(changes).length) throw new UserInputError('No changes received !');
   const item = await validateItemExistence(_id, ModelName);
   if (ModelName === 'User') {
     const wantChangeOwnRole = (changes as TYPES.User).role !== (item as TYPES.User).role;
     const underModerator = ![TYPES.Role.ADMIN, TYPES.Role.MODERATOR].includes(
       (item as TYPES.User).role
     );
-    if (wantChangeOwnRole && underModerator) throw new ForbiddenError('Not Authorized!');
+    if (wantChangeOwnRole && underModerator) throw new ForbiddenError('Not Authorized !');
   }
 };
